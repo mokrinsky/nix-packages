@@ -4,15 +4,12 @@
   fetchurl,
   perl,
   openldap,
-  pam,
   db,
   cyrus_sasl,
-  libcap,
   expat,
   libxml2,
   openssl,
   pkg-config,
-  systemd,
   cppunit,
 }:
 stdenv.mkDerivation rec {
@@ -25,47 +22,37 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [pkg-config];
-  buildInputs =
-    [
-      perl
-      openldap
-      db
-      cyrus_sasl
-      expat
-      libxml2
-      openssl
-    ]
-    ++ lib.optionals stdenv.isLinux [libcap pam systemd];
+  buildInputs = [
+    perl
+    openldap
+    db
+    cyrus_sasl
+    expat
+    libxml2
+    openssl
+  ];
 
   enableParallelBuilding = true;
 
-  configureFlags =
-    [
-      "--enable-ipv6"
-      "--disable-strict-error-checking"
-      "--disable-arch-native"
-      "--with-openssl"
-      "--enable-ssl-crtd"
-      "--enable-delay-pools"
-      "--enable-x-accelerator-vary"
-      "--enable-htcp"
-    ]
-    ++ lib.optional (stdenv.isLinux && !stdenv.hostPlatform.isMusl) [
-      "--enable-storeio=ufs,aufs,diskd,rock"
-      "--enable-removal-policies=lru,heap"
-      "--enable-linux-netfilter"
-    ]
-    ++ lib.optional (stdenv.isDarwin) [
-      "--disable-debug"
-      "--disable-dependency-tracking"
-      "--enable-ssl"
-      "--disable-eui"
-      "--enable-pf-transparent"
-      "--with-included-ltdl"
-      "--enable-disk-io=yes"
-      "--enable-removal-policies=yes"
-      "--enable-storeio=yes"
-    ];
+  configureFlags = [
+    "--disable-arch-native"
+    "--disable-debug"
+    "--disable-dependency-tracking"
+    "--disable-eui"
+    "--disable-strict-error-checking"
+    "--enable-delay-pools"
+    "--enable-disk-io=yes"
+    "--enable-htcp"
+    "--enable-ipv6"
+    "--enable-pf-transparent"
+    "--enable-removal-policies=yes"
+    "--enable-ssl"
+    "--enable-ssl-crtd"
+    "--enable-storeio=yes"
+    "--enable-x-accelerator-vary"
+    "--with-included-ltdl"
+    "--with-openssl"
+  ];
 
   doCheck = true;
   nativeCheckInputs = [cppunit];
@@ -83,11 +70,17 @@ stdenv.mkDerivation rec {
     done
   '';
 
+  postInstall = ''
+    mkdir -p $out/Library/LaunchDaemons
+    cp ${./yumi.nix.squid.plist} $out/Library/LaunchDaemons/yumi.nix.squid.plist
+    substituteInPlace $out/Library/LaunchDaemons/yumi.nix.squid.plist --subst-var out
+  '';
+
   meta = with lib; {
     description = "A caching proxy for the Web supporting HTTP, HTTPS, FTP, and more";
     homepage = "http://www.squid-cache.org";
     license = licenses.gpl2Plus;
-    platforms = platforms.linux ++ platforms.darwin;
-    maintainers = with maintainers; [raskin];
+    platforms = platforms.darwin;
+    maintainers = with maintainers; [yumi];
   };
 }
