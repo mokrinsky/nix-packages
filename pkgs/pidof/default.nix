@@ -32,5 +32,6 @@ stdenv.mkDerivation rec {
     homepage = "http://www.nightproductions.net/cli.htm";
     platforms = platforms.darwin;
     # maintainers = with mainteiners; [yumi];
+    broken = stdenv.isLinux;
   };
 }
