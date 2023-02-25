@@ -82,5 +82,6 @@ stdenv.mkDerivation rec {
     license = licenses.gpl2Plus;
     platforms = platforms.darwin;
     # maintainers = with maintainers; [yumi];
+    broken = stdenv.isLinux;
   };
 }
