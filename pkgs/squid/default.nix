@@ -81,6 +81,6 @@ stdenv.mkDerivation rec {
     homepage = "http://www.squid-cache.org";
     license = licenses.gpl2Plus;
     platforms = platforms.darwin;
-    maintainers = with maintainers; [yumi];
+    # maintainers = with maintainers; [yumi];
   };
 }

@@ -31,6 +31,6 @@ stdenv.mkDerivation rec {
     description = "Display the PID number for a given process name";
     homepage = "http://www.nightproductions.net/cli.htm";
     platforms = platforms.darwin;
-    maintainers = with mainteiners; [yumi];
+    # maintainers = with mainteiners; [yumi];
   };
 }

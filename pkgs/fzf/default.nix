@@ -91,7 +91,7 @@ in
       homepage = "https://github.com/junegunn/fzf";
       description = "A command-line fuzzy finder written in Go";
       license = licenses.mit;
-      maintainers = with maintainers; [Br1ght0ne ma27 zowoq yumi];
+      # maintainers = with maintainers; [Br1ght0ne ma27 zowoq yumi];
       platforms = platforms.unix;
       changelog = "https://github.com/junegunn/fzf/blob/${version}/CHANGELOG.md";
     };
