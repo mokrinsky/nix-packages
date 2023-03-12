@@ -1,14 +1,13 @@
 {
   lib,
   python3,
-  fetchPypi,
   libxml2Python,
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "ovirt-engine-sdk-python";
   version = "4.6.1";
 
-  src = fetchPypi {
+  src = python3.pkgs.fetchPypi {
     inherit pname version;
     sha256 = "25565884eebd7b77cb97d9553c7bffb56f93fa1357e4494385d87c33042973e6";
   };
