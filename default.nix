@@ -14,4 +14,5 @@
   pidof = pkgs.callPackage ./pkgs/pidof {};
   squid = pkgs.callPackage ./pkgs/squid {};
   fzf = pkgs.callPackage ./pkgs/fzf {};
+  ovirt-engine-sdk-python = pkgs.callPackage ./pkgs/ovirt-engine-sdk-python {};
 }
