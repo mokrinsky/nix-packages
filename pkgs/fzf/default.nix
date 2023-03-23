@@ -1,8 +1,12 @@
 {
   fzf,
   runtimeShell,
+  installShellFiles,
+  go,
 }:
 fzf.overrideAttrs (oldAttrs: rec {
+  nativeBuildInputs = [installShellFiles go];
+
   postInstall = ''
     installManPage man/man1/fzf.1
     # Install shell integrations
