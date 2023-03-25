@@ -7,7 +7,7 @@
   withOpenssl ? !minimal,
   withPrefix ? false,
 }: let
-  inherit (lib) concatStringsSep isString optional optionals optionalString;
+  inherit (lib) isString optional optionals optionalString;
   isCross = stdenv.hostPlatform != stdenv.buildPlatform;
 in
   coreutils.overrideAttrs (oldAttrs: rec {
@@ -23,5 +23,5 @@ in
         "fu_cv_sys_stat_statfs2_bsize=yes"
       ]
       ++ optional stdenv.hostPlatform.isLinux "gl_cv_have_proc_uptime=yes"
-      ++ optional stdenv.isDarwin "--enable-install-program=b2sum,base32,basenc,chcon,dir,dircolors,factor,hostid,md5sum,nproc,numfmt,pinky,ptx,realpath,runcon,sha1sum,sha224sum,sha256sum,sha384sum,sha512sum,shred,shuf,stdbuf,tac,timeout,truncate,vdir";
+      ++ optional stdenv.isDarwin "--enable-no-install-program=uptime";
   })
