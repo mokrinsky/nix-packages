@@ -57,6 +57,7 @@ jobs:
           - mokrinsky
         nixPath:
           - nixpkgs=channel:nixpkgs-unstable
+          - nixpkgs=https://github.com/NixOS/nixpkgs/archive/994e2ef9e9c70b4dd7257f73452a94e871723685.tar.gz
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
