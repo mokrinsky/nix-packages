@@ -1,13 +1,11 @@
 {
   neovim-unwrapped,
-  runtimeShell,
-  installShellFiles,
-  fetchFromGithub,
+  pkgs,
 }:
 neovim-unwrapped.overrideAttrs (oldAttrs: rec {
   version = "0.9.0-dev";
 
-  src = fetchFromGitHub {
+  src = pkgs.fetchFromGitHub {
     owner = "neovim";
     repo = "neovim";
     rev = "5bf2f4b3c29fdab72044ddce74f06cb45fe9401c";
