@@ -1,5 +1,7 @@
-{
-  # Add your NixOS modules here
-  #
-  # my-module = ./my-module;
+{...}: {
+  imports = [
+    ./yabai.nix
+    ./skhd.nix
+    ./sketchybar.nix
+  ];
 }

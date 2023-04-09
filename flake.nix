@@ -17,5 +17,6 @@
       import ./default.nix {
         pkgs = import nixpkgs {inherit system;};
       });
+    homeManagerModules.default = import ./modules;
   };
 }
