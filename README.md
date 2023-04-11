@@ -17,8 +17,7 @@ This repo contains several packages I need. They're mostly replacements of some 
 | squid | For some reason `squid` from the main tree is marked as uncompatible with darwin. |
 | ovirt-engine-sdk-python | I'm ansible dev and I rule my oVirt clusters with ansible. For some unknown reason this package is absent from the main tree. |
 
-I also have `home-manager` modules for `yabai`, `shkd` and `sketchybar`. `yabai` and `shkd` modules exist in `nix-darwin` tree but I'd like them to be installed with `home-manager`. `sketchybar` doesn't have its own module at all.
-All three modules are not tested at this moment.
+I also have `home-manager` modules for `yabai`, `skhd`, `sketchybar` and `wireguard`. `yabai`, `skhd` and `wireguard` modules exist in `nix-darwin` tree but I'd like them to be installed with `home-manager`. `sketchybar` doesn't have its own module at all.
 
 ## Cachix
 
