@@ -20,6 +20,13 @@ in {
       description = "This option specifies the sketchybar package to use.";
     };
 
+    logFile = mkOption {
+      type = types.str;
+      default = "";
+      example = "${config.xdg.cacheHome}/sketchybar.log";
+      description = "Path where you want to write daemon logs.";
+    };
+
     sketchybarConfig = mkOption {
       type = types.lines;
       default = "";
@@ -31,6 +38,19 @@ in {
       '';
       description = "Config to use for <filename>sketchybarrc</filename>.";
     };
+
+    extraPackages = mkOption {
+      type = with types; listOf package;
+      default = [];
+      example = literalExpression "[ pkgs.shfmt ]";
+      description = "Extra packages available to sketchybar.";
+    };
+
+    extraPath = mkOption {
+      type = with types; listOf str;
+      default = ["/bin" "/usr/bin" "/sbin" "/usr/sbin"];
+      description = "List of binary folders to put into PATH variable.";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -39,18 +59,21 @@ in {
     xdg.configFile."sketchybar/sketchybarrc".text = cfg.sketchybarConfig;
 
     launchd.agents.sketchybar = {
-      enabled = true;
+      enable = true;
       config = {
         ProgramArguments = ["${lib.getExe cfg.package}"];
         KeepAlive = true;
         RunAtLoad = true;
         ProcessType = "Interactive";
+        StandardErrorPath = mkIf (cfg.logFile != "") "${cfg.logFile}";
+        StandardOutPath = mkIf (cfg.logFile != "") "${cfg.logFile}";
         Nice = -20;
         EnvironmentVariables = {
-          PATH = "${lib.makeBinPath [
-            cfg.package
-            config.home.profileDirectory
-          ]}";
+          PATH = builtins.concatStringsSep ":" ([
+              "${lib.makeBinPath [cfg.package]}"
+              (optionalString (cfg.extraPackages != []) "${lib.makeBinPath cfg.extraPackages}")
+            ]
+            ++ cfg.extraPath);
         };
       };
     };

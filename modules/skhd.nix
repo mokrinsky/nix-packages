@@ -15,6 +15,13 @@ in {
       description = "Whether to enable the skhd hotkey daemon.";
     };
 
+    logFile = mkOption {
+      type = types.str;
+      default = "";
+      example = "${config.xdg.cacheHome}/skhd.log";
+      description = "Path where you want to write daemon logs.";
+    };
+
     package = mkOption {
       type = types.package;
       default = pkgs.skhd;
@@ -33,16 +40,21 @@ in {
     home.packages = [cfg.package];
 
     launchd.agents.skhd = {
-      config.ProgramArguments =
-        ["${cfg.package}/bin/skhd"]
-        ++ optionals (cfg.skhdConfig != "") ["-c" configFile];
-      config.KeepAlive = true;
-      config.ProcessType = "Interactive";
-      config.EnvironmentVariables = {
-        PATH = "${lib.makeBinPath [
-          cfg.package
-          config.home.profileDirectory
-        ]}";
+      enable = true;
+      config = {
+        ProgramArguments =
+          ["${getExe cfg.package}"]
+          ++ optionals (cfg.skhdConfig != "") ["-c" "${configFile}"];
+        KeepAlive = true;
+        ProcessType = "Interactive";
+        StandardErrorPath = mkIf (cfg.logFile != "") "${cfg.logFile}";
+        StandardOutPath = mkIf (cfg.logFile != "") "${cfg.logFile}";
+        EnvironmentVariables = {
+          PATH = "${lib.makeBinPath [
+            cfg.package
+            config.home.profileDirectory
+          ]}:/bin:/usr/bin";
+        };
       };
     };
   };

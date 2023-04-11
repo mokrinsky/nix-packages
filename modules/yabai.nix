@@ -23,13 +23,15 @@ with lib; let
       + optionalString (cfg.extraConfig != "") ("\n" + cfg.extraConfig + "\n")
     )}";
 
-  saScript = mkIf cfg.enableScriptingAddition pkgs.writeScript "yabai-sa" ''
-    if [ ! $(${cfg.package}/bin/yabai --check-sa) ]; then
-      ${cfg.package}/bin/yabai --install-sa
-    fi
+  saScript = mkIf cfg.enableScriptingAddition "${
+    pkgs.writeScript "yabai-sa" ''
+      if [ ! $(sudo ${cfg.package}/bin/yabai --check-sa) ]; then
+        sudo ${cfg.package}/bin/yabai --install-sa
+      fi
 
-    ${cfg.package}/bin/yabai --load-sa
-  '';
+      sudo ${cfg.package}/bin/yabai --load-sa
+    ''
+  }";
 in {
   options.services.yabai = with types; {
     enable = mkOption {
@@ -42,6 +44,13 @@ in {
       type = path;
       default = pkgs.yabai;
       description = "The yabai package to use.";
+    };
+
+    logFile = mkOption {
+      type = types.str;
+      default = "";
+      example = "${config.xdg.cacheHome}/yabai.log";
+      description = "Path where you want to write daemon logs.";
     };
 
     enableScriptingAddition = mkOption {
@@ -90,26 +99,32 @@ in {
 
       launchd.agents.yabai = {
         enable = true;
-        config.ProgramArguments =
-          ["${cfg.package}/bin/yabai"]
-          ++ optionals (cfg.config != {} || cfg.extraConfig != "") ["-c" configFile];
-
-        config.KeepAlive = true;
-        config.RunAtLoad = true;
-        config.EnvironmentVariables = {
-          PATH = "${lib.makeBinPath [
-            cfg.package
-            config.home.profileDirectory
-          ]}";
+        config = {
+          ProgramArguments =
+            ["${cfg.package}/bin/yabai"]
+            ++ optionals (cfg.config != {} || cfg.extraConfig != "") ["-c" configFile];
+          KeepAlive = true;
+          RunAtLoad = true;
+          StandardErrorPath = mkIf (cfg.logFile != "") "${cfg.logFile}";
+          StandardOutPath = mkIf (cfg.logFile != "") "${cfg.logFile}";
+          EnvironmentVariables = {
+            PATH = "${lib.makeBinPath [
+              cfg.package
+              config.home.profileDirectory
+            ]}:/bin:/usr/bin";
+          };
         };
       };
     })
 
     (mkIf cfg.enableScriptingAddition {
       launchd.agents.yabai-sa = {
-        config.ProgramArguments = ["${saScript}"];
-        config.RunAtLoad = true;
-        config.KeepAlive.SuccessfulExit = false;
+        enable = true;
+        config = {
+          ProgramArguments = [saScript];
+          RunAtLoad = true;
+          KeepAlive.SuccessfulExit = false;
+        };
       };
     })
   ];
