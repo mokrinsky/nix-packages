@@ -12,7 +12,6 @@ This repo contains several packages I need. They're mostly replacements of some 
 |:-|:-|
 | coreutils | For some reason `uptime` tool from main tree shows me a time since 01.01.1970. This one disables `uptime` command. |
 | fzf | Main tree version of `fzf` installs bindings for `fish` that break my configuration. This one doesn't install fish bindings. |
-| neovim-unstable | This is `neovim` 0.9 release. Gonna be removed once 0.9 will make it to the main tree. |
 | pidof | MacOS doesn't have `pidof` tool which I like. |
 | squid | For some reason `squid` from the main tree is marked as uncompatible with darwin. |
 | ovirt-engine-sdk-python | I'm ansible dev and I rule my oVirt clusters with ansible. For some unknown reason this package is absent from the main tree. |
