@@ -8,11 +8,7 @@ with lib; let
   cfg = config.services.sketchybar;
 in {
   options.services.sketchybar = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Whether to enable the sketchybar panel daemon.";
-    };
+    enable = mkEnableOption "Whether to enable the sketchybar panel daemon.";
 
     package = mkOption {
       type = types.package;

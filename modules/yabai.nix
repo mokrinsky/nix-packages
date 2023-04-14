@@ -34,11 +34,7 @@ with lib; let
   }";
 in {
   options.services.yabai = with types; {
-    enable = mkOption {
-      type = bool;
-      default = false;
-      description = "Whether to enable the yabai window manager.";
-    };
+    enable = mkEnableOption "Whether to enable the yabai window manager.";
 
     package = mkOption {
       type = path;
@@ -53,14 +49,10 @@ in {
       description = "Path where you want to write daemon logs.";
     };
 
-    enableScriptingAddition = mkOption {
-      type = bool;
-      default = false;
-      description = ''
-        Whether to enable yabai's scripting-addition.
-        SIP must be disabled for this to work.
-      '';
-    };
+    enableScriptingAddition = mkEnableOption ''
+      Whether to enable yabai's scripting-addition.
+      SIP must be disabled for this to work.
+    '';
 
     config = mkOption {
       type = attrs;

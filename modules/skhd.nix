@@ -9,11 +9,7 @@ with lib; let
   configFile = pkgs.writeText "skhdrc" cfg.skhdConfig;
 in {
   options.services.skhd = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Whether to enable the skhd hotkey daemon.";
-    };
+    enable = mkEnableOption "Whether to enable the skhd hotkey daemon.";
 
     logFile = mkOption {
       type = types.str;
