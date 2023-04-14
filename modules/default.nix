@@ -1,8 +1,5 @@
-{...}: {
-  imports = [
-    ./yabai.nix
-    ./skhd.nix
-    ./sketchybar.nix
-    ./wireguard.nix
-  ];
+{lib, ...}: let
+  inherit (import ../lib {inherit lib;}) importModules;
+in {
+  imports = importModules ./.;
 }
