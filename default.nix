@@ -15,4 +15,5 @@
   fzf = pkgs.callPackage ./pkgs/fzf {};
   ovirt-engine-sdk-python = pkgs.callPackage ./pkgs/ovirt-engine-sdk-python {};
   coreutils = pkgs.callPackage ./pkgs/coreutils {};
+  wireguard-tools = pkgs.callPackage ./pkgs/wireguard-tools {};
 }
