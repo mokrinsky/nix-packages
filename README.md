@@ -15,6 +15,7 @@ This repo contains several packages I need. They're mostly replacements of some 
 | pidof | MacOS doesn't have `pidof` tool which I like. |
 | squid | For some reason `squid` from the main tree is marked as uncompatible with darwin. |
 | ovirt-engine-sdk-python | I'm ansible dev and I rule my oVirt clusters with ansible. For some unknown reason this package is absent from the main tree. |
+| wireguard-tools | I would like my wireguard configs stored in my home directory. This package adds ~/.config/wireguard as a possible location for wireguard configs. |
 
 I also have `home-manager` modules for `yabai`, `skhd`, `sketchybar` and `wireguard`. `yabai`, `skhd` and `wireguard` modules exist in `nix-darwin` tree but I'd like them to be installed with `home-manager`. `sketchybar` doesn't have its own module at all.
 
