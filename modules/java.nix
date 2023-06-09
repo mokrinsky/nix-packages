@@ -29,12 +29,12 @@ in {
       pkg:
         if pkgs.stdenv.isDarwin
         then ''
-          sudo rm -rf /Library/Java/JavaVirtualMachines/hm-jdk-${head (splitVersion pkg.version)}* || :
-          sudo ln -s ${pkg} /Library/Java/JavaVirtualMachines/hm-jdk-${pkg.version}
+          /usr/bin/sudo rm -rf /Library/Java/JavaVirtualMachines/hm-jdk-${head (splitVersion pkg.version)}* || :
+          /usr/bin/sudo ln -s ${pkg} /Library/Java/JavaVirtualMachines/hm-jdk-${pkg.version}
         ''
         else ''
-          sudo rm -rf /usr/lib/jvm/hm-jdk-${head (splitVersion pkg.version)}* || :
-          sudo ln -s ${pkg} /usr/lib/jvm/hm-jdk-${pkg.version}
+          /usr/bin/sudo rm -rf /usr/lib/jvm/hm-jdk-${head (splitVersion pkg.version)}* || :
+          /usr/bin/sudo ln -s ${pkg} /usr/lib/jvm/hm-jdk-${pkg.version}
         '';
   in
     mkIf cfg.enable {
