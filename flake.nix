@@ -44,8 +44,7 @@
             src = ./.;
             hooks = {
               alejandra.enable = true;
-              deadnix.enable = true;
-              # statix.enable = true;
+              nil.enable = true;
             };
             settings.deadnix = {
               noLambdaPatternNames = true;
